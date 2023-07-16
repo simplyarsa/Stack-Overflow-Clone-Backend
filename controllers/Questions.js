@@ -86,7 +86,7 @@ export const getAllFriendsQuestions = async (req, res) => {
     try {
         const user=await users.findById(_id);    
         const questions=await Questions.find({userId: _id})
-        const questionList = await Questions.find( {$or : [{userId: {$in:user.followings}}, {userId: _id} ] , type: "S"});
+        const questionList = await Questions.find( {$or : [{userId: {$in:user.followings}}, {userId: _id} ,  ] , type: "S"}).sort({askedOn :-1});
         // const questionList = await Questions.find();
         res.status(200).json(questionList);
     } catch (error) {
