@@ -9,7 +9,12 @@ export const AskQuestion = async (req, res) => {
     const postQuestion=new Questions(postQuestionData);
     try{
         await postQuestion.save();
-        await users.findByIdAndUpdate(userId,{$inc:{numberOfQuestions:1}});
+        if(req.body.type==='S'){
+            await users.findByIdAndUpdate(userId);
+        }
+        else{
+            await users.findByIdAndUpdate(userId,{$inc:{numberOfQuestions:1}});
+        }
         res.status(200).json(postQuestion);
     }catch(error){
         res.status(409).json({message:error.message});
